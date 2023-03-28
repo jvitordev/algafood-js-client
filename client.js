@@ -1,12 +1,29 @@
-function consultarRestaurantes() {
+function consultar() {
   $.ajax({
-    url: "http://api.algafood.local:8080/restaurantes",
+    url: "http://api.algafood.local:8080/formas-de-pagamento",
     type: "get",
 
     success: function(response) {
-      $("#conteudo").text(JSON.stringify(response));
+      preencherTabela(response);
     }
   });
 }
 
-$("#botao").click(consultarRestaurantes);
+
+function preencherTabela(formasPagamento) {
+  $("#tabela tbody tr").remove();
+
+  $.each(formasPagamento, function(i, formaPagamento) {
+    var linha = $("<tr>");
+
+    linha.append(
+      $("<td>").text(formaPagamento.id),
+      $("<td>").text(formaPagamento.descricao)
+    );
+
+    linha.appendTo("#tabela");
+  });
+}
+
+
+$("#btn-consultar").click(consultar);
